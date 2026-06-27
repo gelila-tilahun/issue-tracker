@@ -26,9 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="{inter.className}">
+        <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
+          <h1>My App</h1>
+        </header>
         <NavBar />
         <main>  {children} </main>
-       
+       <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
+          <p>&copy; 2026 My App. All rights reserved.</p>
+        </footer>
         </body>
     </html>
   );
