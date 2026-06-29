@@ -1,6 +1,8 @@
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {Theme} from "@radix-ui/themes";
 import NavBar from "./NavBar";
 
 const geistSans = Geist({
@@ -26,11 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="{inter.className}">
-        <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
+        <Theme>
+          <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
           <h1>My App</h1>
-        </header>
-        <NavBar />
-        <main>  {children} </main>
+          </header>
+          <NavBar />
+          <main>  {children} </main>
+        </Theme>
        <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
           <p>&copy; 2026 My App. All rights reserved.</p>
         </footer>
