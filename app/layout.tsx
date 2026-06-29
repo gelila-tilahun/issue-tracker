@@ -33,7 +33,7 @@ export default function RootLayout({
           <h1>My App</h1>
           </header>
           <NavBar />
-          <main>  {children} </main>
+          <main className = 'p-5'>  {children} </main>
         </Theme>
        <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
           <p>&copy; 2026 My App. All rights reserved.</p>
