@@ -6,17 +6,16 @@ import Link from 'next/link';
 import prisma from '@/prisma/client';
 import { Table } from '@radix-ui/themes';
 import IssueStatusBadge from '@/app/api/components/IssueStatusBadge';
+import delay from 'delay';
+import IssuesActions from './IssuesActions'
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();
+  await delay(2000);
 
   return (
     <div>
-      <div className='mb-5'>
-        <Button>
-          <Link href='/issues/new'>New Issue</Link>
-        </Button>
-      </div>
+      <IssuesActions />
       <Table.Root variant="surface" className="mt-4">
         <Table.Header>
           <Table.Row>
