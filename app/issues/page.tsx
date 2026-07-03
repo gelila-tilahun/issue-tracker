@@ -1,8 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import React from 'react'
-import { Button } from '@radix-ui/themes';
-import Link from 'next/link';
+import  Link from '@/app/api/components/Link';
 import prisma from '@/prisma/client';
 import { Table } from '@radix-ui/themes';
 import IssueStatusBadge from '@/app/api/components/IssueStatusBadge';
@@ -29,7 +28,7 @@ const IssuesPage = async () => {
             <Table.Row key={issue.id}>
               <Table.Cell>
                 <Link href={`/issues/${issue.id}`} >
-                {issue.title}
+                  {issue.title}
                 </Link>
                 <div className='block md:hidden'>
                   <IssueStatusBadge status={issue.status} />
