@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { Button, TextField , Callout, Text } from '@radix-ui/themes';
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 import {useForm, Controller} from 'react-hook-form';
 import axios from 'axios';
 import "easymde/dist/easymde.min.css";
@@ -11,8 +10,10 @@ import { useState } from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/ValidationSchemas';
 import {z} from 'zod';
-import ErrorMessage from '@/app/api/issues/components/ErrorMessage';
-import Spinner from '@/app/api/issues/components/Spinner';
+import ErrorMessage from '@/app/api/components/ErrorMessage';
+import Spinner from '@/app/api/components/Spinner';
+
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -63,7 +64,7 @@ return (
         control={control}
         render ={({ field })=> <SimpleMDE placeholder="Description" {...field} />}
       />
-      
+
         <ErrorMessage>
           {errors.description?.message}
         </ErrorMessage>
