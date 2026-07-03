@@ -1,8 +1,12 @@
-import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
-import IssueStatusBadge from '@/app/api/components/IssueStatusBadge'
-import Link from 'next/link'
-import React from 'react'
+
+import { IssueStatusBadge, Skeleton } from '@/app/components/';
+import prisma from '@/prisma/client';
+import { Card, Flex, Grid, Heading, Text, Box, Button, Link } from '@radix-ui/themes';
+import delay from 'delay';
+import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import {Pencil2Icon} from '@radix-ui/react-icons';
+
 
 export const dynamic = 'force-dynamic'
 
@@ -37,41 +41,28 @@ const IssueDetailPage = async ({ params }: Props) => {
     notFound()
   }
 
+await delay(2000);
+
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-6 flex flex-col gap-3 rounded-3xl border border-border bg-background p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold">{issue.title}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Issue #{issue.id}</p>
-        </div>
-        <IssueStatusBadge status={issue.status} />
-      </div>
+  <Grid columns="2">
+    <Box>
+    <Heading>{issue.title}</Heading>
+    <Flex className="space-x-3" my="2">
+      <IssueStatusBadge status ={issue.status}/>
+     <Text> {issue.createdAt.toDateString()} </Text>
+    </Flex>
+    <Card className='mt-4'>
+      <ReactMarkdown>{issue.description}</ReactMarkdown>
+    </Card>
+    </Box>
+    <Box>
+      <Button> 
+        <Pencil2Icon/>
+         <Link>Edit Issue</Link> 
+      </Button>
+    </Box>
+  </Grid>
 
-      <section className="space-y-6">
-        <div className="rounded-3xl border border-border bg-background p-6 shadow-sm">
-          <h2 className="text-xl font-semibold">Description</h2>
-          <p className="mt-4 whitespace-pre-line text-base leading-7 text-foreground">{issue.description}</p>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-3xl border border-border bg-background p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Created</p>
-            <p className="mt-2 text-base">{issue.createdAt.toDateString()}</p>
-          </div>
-          <div className="rounded-3xl border border-border bg-background p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Updated</p>
-            <p className="mt-2 text-base">{issue.updatedAt.toDateString()}</p>
-          </div>
-        </div>
-      </section>
-
-      <div className="mt-6">
-        <Link href="/issues" className="text-primary underline">
-          Back to issues
-        </Link>
-      </div>
-    </div>
   )
 }
-
 export default IssueDetailPage
