@@ -58,7 +58,7 @@ await delay(2000);
     <Box>
       <Button> 
         <Pencil2Icon/>
-         <Link>Edit Issue</Link> 
+         <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link> 
       </Button>
     </Box>
   </Grid>
