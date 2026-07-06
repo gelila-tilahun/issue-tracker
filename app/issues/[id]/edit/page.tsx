@@ -1,48 +1,45 @@
-import prisma from '@/prisma/client'
-import IssueForm from '../../_components/IssueForm'
-import { notFound } from 'next/navigation'
 
-export const dynamic = 'force-dynamic'
+import React from 'react';
+import prisma from '@/prisma/client';
+import { notFound } from 'next/navigation';
+// 1. Change this to a standard static import
+import dynamic from "next/dynamic";
+import IssueFormSkeleton from "./loading";
+
+// Dynamically import IssueForm and provide a loading fallback 
+const IssueForm = dynamic(
+  () => import('@/app/issues/_components/IssueForm'), 
+  { 
+   
+    loading: () => <IssueFormSkeleton/>
+    
+  }
+);
+
+
 
 interface Props {  
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 const Page = async ({ params }: Props) => {
-  // Get the route parameter
-  const { id } = await params
-  const issueId = parseInt(id, 10)
+  const { id } = await params;
+  const issueId = parseInt(id, 10);
 
-  console.log('EditIssuePage params.id =', id, 'parsed id =', issueId)
-
-  // Validate the ID
-  if (!Number.isInteger(issueId) || issueId <= 0) {
-    console.error('EditIssuePage invalid id:', id)
-    notFound()
+  if (isNaN(issueId)) {
+    notFound();
   }
 
-  let issue
-
-  try {
-    issue = await prisma.issue.findUnique({
-      where: {
-        id: issueId,
-      },
-    })
-  } catch (error) {
-    console.error('EditIssuePage Prisma error:', error)
-    throw error
-  }
-
-  console.log('EditIssuePage issue from DB:', issue)
+  const issue = await prisma.issue.findUnique({
+    where: { id: issueId },
+  });
 
   if (!issue) {
-    console.error('EditIssuePage issue not found:', issueId)
-    notFound()
+    notFound();
   }
 
-  return <IssueForm issue={issue} />
-}
+  // 2. Just pass the data into the statically imported form
+  return <IssueForm issue={issue} />;
+};
 
-export default Page
-
+export default Page;
