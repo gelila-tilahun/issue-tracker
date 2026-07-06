@@ -4,8 +4,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {Theme, ThemePanel} from "@radix-ui/themes";
+import ThemeClient from "./ThemeClient";
 import NavBar from "./NavBar";
+import { Container } from "@radix-ui/themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,16 +36,19 @@ export default function RootLayout({
   return (
    <html lang="en" >
       <body className="{inter.variable}">
-        <Theme accentColor="bronze" scaling="105%">
+        <ThemeClient>
           <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
-          <h1>My App</h1>
+            <h1>Issue-Tracker</h1>
           </header>
           <NavBar />
-          <main className = 'p-5'>  {children} </main>
-          < ThemePanel />
-        </Theme>
+          <main className = 'p-5'> 
+            <Container>
+                {children}
+            </Container>
+            </main>
+        </ThemeClient>
        <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
-          <p>&copy; 2026 My App. All rights reserved.</p>
+          <p>&copy; 2026 Issue-Tracker. All rights reserved.</p>
         </footer>
         </body>
     </html>
