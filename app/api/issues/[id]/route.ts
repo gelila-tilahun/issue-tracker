@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from '@/prisma/client';
 import { issueSchema } from '@/app/ValidationSchemas';
+import delay from "delay";
 
 export async function PATCH(
     request: NextRequest, 
@@ -49,6 +50,7 @@ export async function DELETE(
     request: NextRequest, 
     { params }: { params: Promise<{ id: string }> }
 ) {
+    await delay (2000);
     // 1. Resolve params (Required for Next.js 15+)
     const { id } = await params;
     const issueId = parseInt(id, 10);
