@@ -43,7 +43,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       
       // Refresh the current route data cache before routing away
       router.refresh();
-      router.push('/issues');
+      router.push('/issues/list');
     } catch (error) {
       setIsSubmitting(false);
       setErrorMessage('An unexpected error occurred.');
