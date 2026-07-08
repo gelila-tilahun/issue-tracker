@@ -7,6 +7,7 @@ import "./globals.css";
 import ThemeClient from "./ThemeClient";
 import NavBar from "./NavBar";
 import { Container } from "@radix-ui/themes";
+import AuthProvider from "./auth/Provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,21 +37,23 @@ export default function RootLayout({
   return (
    <html lang="en" >
       <body className="{inter.variable}">
-        <ThemeClient>
-          <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
-            <h1>Issue-Tracker</h1>
-          </header>
-          <NavBar />
-          <main className = 'p-5'> 
-            <Container>
-                {children}
-            </Container>
-            </main>
-        </ThemeClient>
-       <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
-          <p>&copy; 2026 Issue-Tracker. All rights reserved.</p>
-        </footer>
-        </body>
+        <AuthProvider>
+            <ThemeClient>
+               <header style = {{ backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
+                    <h1>Issue-Tracker</h1>
+               </header>
+                 <NavBar/>
+              <main className = 'p-5'> 
+                <Container>
+                   {children}
+                </Container>
+              </main>
+            </ThemeClient>
+                <footer style ={{backgroundColor: "#f0f0f0", padding: "1rem", textAlign: "center" }}>
+                    <p>&copy; 2026 Issue-Tracker. All rights reserved.</p>
+                </footer>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
