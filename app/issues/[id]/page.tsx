@@ -1,11 +1,13 @@
+import { authOptions } from '@/app/lib/auth';
 import prisma from '@/prisma/client';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import delay from 'delay';
+// import { getServerSession } from '';
 import { notFound } from 'next/navigation';
+import DeleteIssueButton from './DeleteIssueButton';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
-import DeleteIssueButton from './DeleteIssueButton';
-
+import AssigneeSelect from './AssigneeSelect';
 
 export const dynamic = 'force-dynamic'
 
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
+ // const session = await getServerSession(authOptions);
+
   const { id } = await params
   const issueId = parseInt(id, 10)
   console.log('IssueDetailPage params.id =', id, 'parsed id =', issueId)
@@ -47,8 +51,9 @@ await delay(2000);
     <Box className ='md:col-span-4'>
       <IssueDetails issue={issue}/>
     </Box>
-    <Box>
+      <Box>
       <Flex direction="column" gap="4">
+        <AssigneeSelect/>
         <EditIssueButton issueId={issue.id} />
         <DeleteIssueButton issueId={issue.id}/>
       </Flex>
@@ -58,3 +63,5 @@ await delay(2000);
   )
 }
 export default IssueDetailPage
+
+
