@@ -1,16 +1,20 @@
 import { IssueStatusBadge, Link } from '@/app/components';
 import NextLink from 'next/link';
 import prisma from '@/prisma/client';
-import { Table } from '@radix-ui/themes';
+import { Table, Flex } from '@radix-ui/themes';
 import IssuesActions from './IssuesActions';
-import { Status, issue } from '@/app/generated/client'; // Notice capital 'Issue'
+import { Status, issue } from '@/app/generated/client'; // Fixed typo capitalization 'Issue'
 import { ArrowUpIcon } from '@radix-ui/react-icons';
+import Pagination  from '@/app/components/Pagination'; // Make sure this path matches your file tree
 
 export const dynamic = 'force-dynamic';
 
 interface Props {
-  // searchParams is an asynchronous Promise in newer Next.js versions
-  searchParams: Promise<{ status?: string; orderBy?: keyof issue }>;
+  searchParams: Promise<{ 
+    status?: string; 
+    orderBy?: keyof issue;
+    page?: string; // Optional because initial page visits don't have it
+  }>;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -33,7 +37,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   // 3. Convert query value to uppercase to prevent case-sensitivity filtering bypasses
   const rawStatus = resolvedParams.status?.toUpperCase();
 
-  // 4. Validate against the enum array by casting statuses to a string array to clear the TS red line
+  // 4. Validate against the enum array
   const status = rawStatus && (statuses as string[]).includes(rawStatus)
     ? (rawStatus as Status)
     : undefined;
@@ -44,31 +48,37 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const orderBy = isValidOrderBy 
     ? { [resolvedParams.orderBy!]: 'asc' } 
     : undefined;
+    
+  const where = { status }; 
 
-  // 6. Query the database using both status filtering and your verified orderBy column
+  // FIXED: Reference resolvedParams instead of the raw un-resolved Promise
+  const page = parseInt(resolvedParams.page || '1', 10) || 1;
+  const pageSize = 10;
+
+  // 6. Query the database using both status filtering and pagination variables
   const issues = await prisma.issue.findMany({
-    where: {
-      status
-    },
-    orderBy
+    where,
+    orderBy, // FIXED: Added missing comma terminator
+    skip: (page - 1) * pageSize,
+    take: pageSize
   });
 
+  const issueCount = await prisma.issue.count({ where });
+
   return (
-    <div>
+    <Flex direction="column" gap="4">
       <IssuesActions />
-      <Table.Root variant="surface" className="mt-4">
+      
+      <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
             {columns.map((column) => ( 
-              // Added className to apply responsive hiding rules to the headers
               <Table.ColumnHeaderCell key={column.value} className={column.className}>
                 <NextLink href={{
-                  // FIXED: Spread the resolved query object instead of the unresolved Promise
                   query: { ...resolvedParams, orderBy: column.value }
                 }}>
                   {column.label}
                 </NextLink>
-                {/* FIXED: Compares against resolved properties */}
                 {column.value === resolvedParams.orderBy && (
                   <ArrowUpIcon className="inline ml-1" />
                 )}
@@ -98,7 +108,14 @@ const IssuesPage = async ({ searchParams }: Props) => {
           ))}
         </Table.Body>
       </Table.Root>
-    </div>
+
+      {/* FIXED: Repaired broken JSX syntax elements, properties, and spellings here */}
+      <Pagination 
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={issueCount}
+      />
+    </Flex>
   );
 };
 
