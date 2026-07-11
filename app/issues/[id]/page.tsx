@@ -2,12 +2,13 @@ import { authOptions } from '@/app/lib/auth';
 import prisma from '@/prisma/client';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import delay from 'delay';
-// import { getServerSession } from '';
+import getServerSession  from 'next-auth';
 import { notFound } from 'next/navigation';
 import DeleteIssueButton from './DeleteIssueButton';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
 import AssigneeSelect from './AssigneeSelect';
+import { cache } from 'react';
 
 export const dynamic = 'force-dynamic'
 
@@ -15,8 +16,11 @@ interface Props {
   params: Promise<{ id: string }>
 }
 
+const fetchUser = cache( async (issueId: number) =>  await prisma.issue.findUnique({ where: { id: issueId } }));
+
 const IssueDetailPage = async ({ params }: Props) => {
- // const session = await getServerSession(authOptions);
+ const session = getServerSession(authOptions);
+
 
   const { id } = await params
   const issueId = parseInt(id, 10)
@@ -29,9 +33,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
   let issue
   try {
-    issue = await prisma.issue.findUnique({
-      where: { id: issueId }, //fetching issuse -->database
-    })
+    issue = await fetchUser( parseInt((await params).id) );
   } catch (error) {
     console.error('IssueDetailPage prisma error', error)
     throw error
@@ -62,10 +64,8 @@ await delay(2000);
   );
 };
 
-export async function generateMetadata({ params }: Props)
- {
-  const issue = await prisma.issue.findUnique({ where: { id: parseInt( (await params).id) }});
-
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchUser ( parseInt((await params).id) );
   return {
     title: issue?.title,
     description: 'Details of issue' + issue?.id
