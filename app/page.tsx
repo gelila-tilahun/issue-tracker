@@ -3,6 +3,7 @@ import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import IssueChart from "./IssueChart";
 import { getIssueCounts } from "./IssueCount"; // Adjust path as needed
+import { Metadata } from "next";
 
 export default async function Home() {
   // Single, clean encapsulation point
@@ -18,3 +19,9 @@ export default async function Home() {
     </Grid>
   );
 }
+
+
+export const metadata: Metadata = {
+  title:'Issue Tracker - Dashboard',
+  description:'View a summary of project issues'
+};

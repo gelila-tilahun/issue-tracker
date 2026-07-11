@@ -59,9 +59,18 @@ await delay(2000);
       </Flex>
     </Box>
   </Grid>
+  );
+};
 
-  )
-}
+export async function generateMetadata({ params }: Props)
+ {
+  const issue = await prisma.issue.findUnique({ where: { id: parseInt( (await params).id) }});
+
+  return {
+    title: issue?.title,
+    description: 'Details of issue' + issue?.id
+  }
+ }
 export default IssueDetailPage
 
 
