@@ -1,35 +1,21 @@
-import { IssueStatusBadge, Link } from '@/app/components';
-import NextLink from 'next/link';
+import Pagination from '@/app/components/Pagination'; // Make sure this path matches your file tree
+import { Status } from '@/app/generated/client'; // Fixed typo capitalization 'Issue'
 import prisma from '@/prisma/client';
-import { Table, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import IssuesActions from './IssuesActions';
-import { Status, issue } from '@/app/generated/client'; // Fixed typo capitalization 'Issue'
-import { ArrowUpIcon } from '@radix-ui/react-icons';
-import Pagination  from '@/app/components/Pagination'; // Make sure this path matches your file tree
+import IssueTable, { columnNames, IssueQuery } from './IssueTable';
 
 export const dynamic = 'force-dynamic';
 
 interface Props {
-  searchParams: Promise<{ 
-    status?: string; 
-    orderBy?: keyof issue;
-    page?: string; // Optional because initial page visits don't have it
-  }>;
+  searchParams: IssueQuery
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
   // 1. Resolve the searchParams promise safely
   const resolvedParams = await searchParams;
 
-  const columns: { 
-    label: string; 
-    value: keyof issue;
-    className?: string;
-  }[] = [
-    { label: 'Issue', value: 'title' },
-    { label: 'Status', value: 'status', className: "hidden md:table-cell" },
-    { label: 'Created', value: 'createdAt', className: "hidden md:table-cell" },
-  ];
+
 
   // 2. Fetch all valid status enum values from your custom client
   const statuses = Object.values(Status);
@@ -43,7 +29,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
     : undefined;
 
   // 5. Safely validate the orderBy value against your allowed columns array
-  const isValidOrderBy = columns.map(c => c.value).includes(resolvedParams.orderBy!);
+  const isValidOrderBy = columnNames
+  .includes(resolvedParams.orderBy!);
   
   const orderBy = isValidOrderBy 
     ? { [resolvedParams.orderBy!]: 'asc' } 
@@ -67,49 +54,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
   return (
     <Flex direction="column" gap="4">
-      <IssuesActions />
-      
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            {columns.map((column) => ( 
-              <Table.ColumnHeaderCell key={column.value} className={column.className}>
-                <NextLink href={{
-                  query: { ...resolvedParams, orderBy: column.value }
-                }}>
-                  {column.label}
-                </NextLink>
-                {column.value === resolvedParams.orderBy && (
-                  <ArrowUpIcon className="inline ml-1" />
-                )}
-              </Table.ColumnHeaderCell>          
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`} >
-                  {issue.title}
-                </Link>
-                {/* Mobile view fallback badge layout */}
-                <div className='block md:hidden mt-1'>
-                  <IssueStatusBadge status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <IssueStatusBadge status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-
-      {/* FIXED: Repaired broken JSX syntax elements, properties, and spellings here */}
+      <IssuesActions />      
+   < IssueTable searchParams={searchParams} issues={issues} />
       <Pagination 
         pageSize={pageSize}
         currentPage={page}
