@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token) {
         session.user.id = token.id as string;
         session.user.name = token.name;
-        session.user.email = token.email;
+        session.user.email = token.email ?? "";
         session.user.image = token.picture as string | null;
       }
       return session;
