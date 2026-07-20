@@ -49,14 +49,8 @@ export default function RootLayout({
       <body className={geist.variable}>
         <AuthProvider>
           <QueryClientProvider>
-               <header style = {{ backgroundColor: "#8DC63F", padding: "1rem", textAlign: "center" }}>
-                    <h1>Issue-Tracker</h1>
-               </header>
                <Theme accentColor="lime" scaling="105%">
                  <NavBar/>
-              
-
-
               <main className = 'p-5'> 
                 <Container>
                    {children}
@@ -64,9 +58,6 @@ export default function RootLayout({
               </main>
             </Theme>
           </QueryClientProvider>
-          <footer style ={{backgroundColor: "#8DC63F", padding: "1rem", textAlign: "center" }}>
-              <p>&copy; 2026 Issue-Tracker. All rights reserved.</p>
-          </footer>
         </AuthProvider>
       </body>
     </html>

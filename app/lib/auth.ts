@@ -7,6 +7,7 @@ import prisma from "@/prisma/client";
 // In NextAuth v5, we export the handlers, auth (middleware/session checker), signIn, and signOut directly
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
