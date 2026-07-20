@@ -2,19 +2,7 @@
 import React from 'react';
 import prisma from '@/prisma/client';
 import { notFound } from 'next/navigation';
-// 1. Change this to a standard static import
-import dynamic from "next/dynamic";
-import IssueFormSkeleton from "./loading";
-
-// Dynamically import IssueForm and provide a loading fallback 
-const IssueForm = dynamic(
-  () => import('@/app/issues/_components/IssueForm'), 
-  { 
-   
-    loading: () => <IssueFormSkeleton/>
-    
-  }
-);
+import IssueForm from '@/app/issues/_components/IssueFormClient';
 
 
 

@@ -1,4 +1,4 @@
-import { authOptions } from '@/app/lib/auth';
+import { auth } from '@/app/lib/auth';
 import prisma from '@/prisma/client';
 import { Box, Flex, Grid } from '@radix-ui/themes';
 import delay from 'delay';
@@ -19,7 +19,7 @@ interface Props {
 const fetchUser = cache( async (issueId: number) =>  await prisma.issue.findUnique({ where: { id: issueId } }));
 
 const IssueDetailPage = async ({ params }: Props) => {
- const session = getServerSession(authOptions);
+const session = await auth();
 
 
   const { id } = await params

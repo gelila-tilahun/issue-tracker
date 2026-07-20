@@ -5,6 +5,7 @@ import IssueChart from "./IssueChart";
 import { getIssueCounts } from "./IssueCount"; // Adjust path as needed
 import { Metadata } from "next";
 
+
 export default async function Home() {
   // Single, clean encapsulation point
   const counts = await getIssueCounts();

@@ -3,7 +3,7 @@
 import { ErrorMessage, Spinner } from '@/app/components/';
 import { issueSchema } from '@/app/ValidationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Issue } from '@prisma/client';
+import { Issue } from '@/app/generated/client';
 import { Button, Callout, TextField } from '@radix-ui/themes';
 import axios from 'axios';
 import "easymde/dist/easymde.min.css";

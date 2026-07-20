@@ -1,0 +1,43 @@
+
+> issue-tracker@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.9 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./next.config.ts
+    ./app/generated/client/index.js
+    ./prisma/client.ts
+    ./app/api/issues/route.ts
+
+
+Γ£ô Compiled successfully in 94s
+  Running TypeScript ...
+Failed to type check.
+
+./node_modules/react-markdown/lib/complex-types.ts:25:21
+Type error: Cannot find namespace 'JSX'.
+
+  23 |
+  24 | export type NormalComponents = {
+> 25 |   [TagName in keyof JSX.IntrinsicElements]:
+     |                     ^
+  26 |     | keyof JSX.IntrinsicElements
+  27 |     | ComponentType<ComponentPropsWithoutRef<TagName> & ReactMarkdownProps>
+  28 | }
+Next.js build worker exited with code: 1 and signal: null
