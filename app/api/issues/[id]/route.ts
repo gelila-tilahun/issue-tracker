@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { patchIssueSchema } from "@/app/ValidationSchemas";
 import delay from "delay";
+import { auth } from "@/app/lib/auth";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   // 1. Resolve params (Required for Next.js 15+)
   const { id } = await params;
   const issueId = parseInt(id, 10);
@@ -67,6 +71,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   await delay(2000);
   
   // 1. Resolve params (Required for Next.js 15+)
