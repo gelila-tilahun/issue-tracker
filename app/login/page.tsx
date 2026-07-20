@@ -1,14 +1,15 @@
-
-
-// app/login/page.tsx
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import LoginForm from './login-form';
 
 export const metadata: Metadata = {
-  title: 'Issue Tracker - Sign-in',
-  description: 'View a summary of project issues',
+  title: 'Issue Tracker - Sign in',
 };
 
 export default function LoginPage() {
-  return <LoginForm />;
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
 }

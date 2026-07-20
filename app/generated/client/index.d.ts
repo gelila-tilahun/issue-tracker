@@ -4229,6 +4229,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4237,6 +4238,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4245,6 +4247,7 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
+    password: number
     _all: number
   }
 
@@ -4255,6 +4258,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4263,6 +4267,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4271,6 +4276,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
+    password?: true
     _all?: true
   }
 
@@ -4352,6 +4358,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
+    password: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4377,6 +4384,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
     account?: boolean | user$accountArgs<ExtArgs>
     assignedIssues?: boolean | user$assignedIssuesArgs<ExtArgs>
     session?: boolean | user$sessionArgs<ExtArgs>
@@ -4391,9 +4399,10 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
+    password?: boolean
   }
 
-  export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image", ExtArgs["result"]["user"]>
+  export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password", ExtArgs["result"]["user"]>
   export type userInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     account?: boolean | user$accountArgs<ExtArgs>
     assignedIssues?: boolean | user$assignedIssuesArgs<ExtArgs>
@@ -4414,6 +4423,7 @@ export namespace Prisma {
       email: string | null
       emailVerified: Date | null
       image: string | null
+      password: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4791,6 +4801,7 @@ export namespace Prisma {
     readonly email: FieldRef<"user", 'String'>
     readonly emailVerified: FieldRef<"user", 'DateTime'>
     readonly image: FieldRef<"user", 'String'>
+    readonly password: FieldRef<"user", 'String'>
   }
     
 
@@ -6144,7 +6155,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
-    image: 'image'
+    image: 'image',
+    password: 'password'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -6214,7 +6226,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     email: 'email',
-    image: 'image'
+    image: 'image',
+    password: 'password'
   };
 
   export type userOrderByRelevanceFieldEnum = (typeof userOrderByRelevanceFieldEnum)[keyof typeof userOrderByRelevanceFieldEnum]
@@ -6493,6 +6506,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"user"> | string | null
     emailVerified?: DateTimeNullableFilter<"user"> | Date | string | null
     image?: StringNullableFilter<"user"> | string | null
+    password?: StringNullableFilter<"user"> | string | null
     account?: AccountListRelationFilter
     assignedIssues?: IssueListRelationFilter
     session?: SessionListRelationFilter
@@ -6504,6 +6518,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     account?: accountOrderByRelationAggregateInput
     assignedIssues?: IssueOrderByRelationAggregateInput
     session?: sessionOrderByRelationAggregateInput
@@ -6519,6 +6534,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"user"> | string | null
     emailVerified?: DateTimeNullableFilter<"user"> | Date | string | null
     image?: StringNullableFilter<"user"> | string | null
+    password?: StringNullableFilter<"user"> | string | null
     account?: AccountListRelationFilter
     assignedIssues?: IssueListRelationFilter
     session?: SessionListRelationFilter
@@ -6530,6 +6546,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
     _count?: userCountOrderByAggregateInput
     _max?: userMaxOrderByAggregateInput
     _min?: userMinOrderByAggregateInput
@@ -6544,6 +6561,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"user"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"user"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"user"> | string | null
+    password?: StringNullableWithAggregatesFilter<"user"> | string | null
   }
 
   export type verificationtokenWhereInput = {
@@ -6814,6 +6832,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountCreateNestedManyWithoutUserInput
     assignedIssues?: IssueCreateNestedManyWithoutAssignedToUserInput
     session?: sessionCreateNestedManyWithoutUserInput
@@ -6825,6 +6844,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountUncheckedCreateNestedManyWithoutUserInput
     assignedIssues?: IssueUncheckedCreateNestedManyWithoutAssignedToUserInput
     session?: sessionUncheckedCreateNestedManyWithoutUserInput
@@ -6836,6 +6856,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUpdateManyWithoutUserNestedInput
     assignedIssues?: IssueUpdateManyWithoutAssignedToUserNestedInput
     session?: sessionUpdateManyWithoutUserNestedInput
@@ -6847,6 +6868,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUncheckedUpdateManyWithoutUserNestedInput
     assignedIssues?: IssueUncheckedUpdateManyWithoutAssignedToUserNestedInput
     session?: sessionUncheckedUpdateManyWithoutUserNestedInput
@@ -6858,6 +6880,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
   }
 
   export type userUpdateManyMutationInput = {
@@ -6866,6 +6889,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type userUncheckedUpdateManyInput = {
@@ -6874,6 +6898,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type verificationtokenCreateInput = {
@@ -7283,6 +7308,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type userMaxOrderByAggregateInput = {
@@ -7291,6 +7317,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type userMinOrderByAggregateInput = {
@@ -7299,6 +7326,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    password?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7765,6 +7793,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountCreateNestedManyWithoutUserInput
     session?: sessionCreateNestedManyWithoutUserInput
   }
@@ -7775,6 +7804,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountUncheckedCreateNestedManyWithoutUserInput
     session?: sessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -7801,6 +7831,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUpdateManyWithoutUserNestedInput
     session?: sessionUpdateManyWithoutUserNestedInput
   }
@@ -7811,6 +7842,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUncheckedUpdateManyWithoutUserNestedInput
     session?: sessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -7821,6 +7853,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     assignedIssues?: IssueCreateNestedManyWithoutAssignedToUserInput
     session?: sessionCreateNestedManyWithoutUserInput
   }
@@ -7831,6 +7864,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     assignedIssues?: IssueUncheckedCreateNestedManyWithoutAssignedToUserInput
     session?: sessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -7857,6 +7891,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     assignedIssues?: IssueUpdateManyWithoutAssignedToUserNestedInput
     session?: sessionUpdateManyWithoutUserNestedInput
   }
@@ -7867,6 +7902,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     assignedIssues?: IssueUncheckedUpdateManyWithoutAssignedToUserNestedInput
     session?: sessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -7877,6 +7913,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountCreateNestedManyWithoutUserInput
     assignedIssues?: IssueCreateNestedManyWithoutAssignedToUserInput
   }
@@ -7887,6 +7924,7 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    password?: string | null
     account?: accountUncheckedCreateNestedManyWithoutUserInput
     assignedIssues?: IssueUncheckedCreateNestedManyWithoutAssignedToUserInput
   }
@@ -7913,6 +7951,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUpdateManyWithoutUserNestedInput
     assignedIssues?: IssueUpdateManyWithoutAssignedToUserNestedInput
   }
@@ -7923,6 +7962,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     account?: accountUncheckedUpdateManyWithoutUserNestedInput
     assignedIssues?: IssueUncheckedUpdateManyWithoutAssignedToUserNestedInput
   }

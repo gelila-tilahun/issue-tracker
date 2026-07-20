@@ -1,13 +1,11 @@
 'use client';
 import {Skeleton} from "@/app/components"
-import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/themes';
+import { Avatar, Box, DropdownMenu, Flex, Text } from '@radix-ui/themes';
 import classnames from 'classnames';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaBugs } from "react-icons/fa6";
 import Image from "next/image";
-import { SeparatorVertical } from "@/components/Separator";
 import { Separator } from "@/components/ui/separator";
 import { Fragment } from "react/jsx-runtime";
 
@@ -82,7 +80,7 @@ const AuthStatus = () => {
    if (status === "loading") return <Skeleton width="3"/>;
 
    if (status === "unauthenticated")       
-        return <Link className= "nav-link" href="/api/auth/signin">Login</Link>;
+        return <Link className= "nav-link" href="/login">Login</Link>;
         
    return(  
         <Box >
@@ -101,8 +99,13 @@ const AuthStatus = () => {
                     { session!.user!.email }
                     </Text>
                   </DropdownMenu.Label>
-                  <DropdownMenu.Item>
-                 <Link href="/api/auth/signout">Logout</Link>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item
+                    color="red"
+                    className="cursor-pointer"
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                  >
+                    Sign Out
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
                 </DropdownMenu.Root>

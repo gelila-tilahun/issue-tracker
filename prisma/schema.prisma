@@ -56,6 +56,7 @@ model user {
   email          String?   @unique(map: "User_email_key")
   emailVerified  DateTime?
   image          String?
+  password       String?
   account        account[]
   assignedIssues Issue[]
   session        session[]
