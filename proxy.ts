@@ -15,7 +15,7 @@ export default async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Protect app routes, leave auth/login/signup/register open
-    "/((?!login|logout|register|signup|api/auth|api/register|_next/static|_next/image|favicon\\.ico).*)",
+    "/issues/:path*",
+    "/dashboard/:path*",
   ],
 };
