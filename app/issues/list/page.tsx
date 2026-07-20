@@ -44,9 +44,14 @@ const IssuesPage = async ({ searchParams }: Props) => {
   // 6. Query the database using both status filtering and pagination variables
   const issues = await prisma.issue.findMany({
     where,
-    orderBy, // FIXED: Added missing comma terminator
+    orderBy,
     skip: (page - 1) * pageSize,
-    take: pageSize
+    take: pageSize,
+    include: {
+      assignedToUser: {
+        select: { id: true, name: true, email: true, image: true },
+      },
+    },
   });
 
   const issueCount = await prisma.issue.count({ where });

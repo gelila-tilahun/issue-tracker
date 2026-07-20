@@ -8,7 +8,9 @@ const LatestIssues = async () => {
         orderBy: { createdAt: 'desc'},
         take: 5,
         include: {
-            assignedToUser: true
+            assignedToUser: {
+                select: { id: true, name: true, email: true, image: true }
+            }
         }
     });
 
