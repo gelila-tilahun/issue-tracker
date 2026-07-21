@@ -6,6 +6,7 @@ import DeleteIssueButton from './DeleteIssueButton';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
 import AssigneeSelect from './AssigneeSelect';
+import StatusSelect from './StatusSelect';
 import { cache } from 'react';
 
 export const dynamic = 'force-dynamic'
@@ -37,6 +38,7 @@ const IssueDetailPage = async ({ params }: Props) => {
       <Box>
         <Flex direction="column" gap="4">
           {session && <AssigneeSelect issue={issue} />}
+          {session && <StatusSelect issue={issue} />}
           {session && <EditIssueButton issueId={issue.id} />}
           {session && <DeleteIssueButton issueId={issue.id} />}
         </Flex>
