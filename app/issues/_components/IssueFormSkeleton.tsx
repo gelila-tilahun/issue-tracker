@@ -1,14 +1,14 @@
 import { Box } from '@radix-ui/themes';
-import React from 'react';
-import {Skeleton} from '@/app/components';
+import { Skeleton } from '@/app/components';
 
 const IssueFormSkeleton = () => {
   return (
-    <Box className='max-w-xl'>
-      <Skeleton height="2rem"/>
-      <Skeleton height="20rem"/>
+    <Box className="max-w-2xl space-y-4">
+      <Skeleton height="2.5rem" />
+      <Skeleton height="22rem" />
+      <Skeleton height="2.5rem" width="8rem" />
     </Box>
-  )
-}
+  );
+};
 
-export default IssueFormSkeleton
+export default IssueFormSkeleton;
