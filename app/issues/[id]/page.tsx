@@ -32,23 +32,22 @@ const IssueDetailPage = async ({ params }: Props) => {
   return (
     <>
       <Toaster position="bottom-right" />
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-6">
-
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Main content */}
-        <div className="sm:col-span-4">
+        <div className="lg:col-span-4 min-w-0">
           <IssueDetails issue={issue} />
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar — below on mobile, right column on desktop */}
         {session && (
-          <div className="sm:col-span-1">
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-5 sticky top-4">
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-5 lg:sticky lg:top-4">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
                 Manage
               </p>
               <AssigneeSelect issue={issue} />
               <StatusSelect issue={issue} />
-              <div className="pt-2 border-t border-gray-100 space-y-2">
+              <div className="pt-2 border-t border-gray-100 flex flex-row lg:flex-col gap-2">
                 <EditIssueButton issueId={issue.id} />
                 <DeleteIssueButton issueId={issue.id} />
               </div>

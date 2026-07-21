@@ -8,7 +8,7 @@ const IssueDetails = ({ issue }: { issue: Issue }) => {
       {/* Header */}
       <div className="px-6 pt-6 pb-4 border-b border-gray-100">
         <h1 className="text-xl font-bold text-gray-900 leading-snug">{issue.title}</h1>
-        <div className="flex items-center gap-3 mt-3">
+        <div className="flex flex-wrap items-center gap-2 mt-3">
           <IssueStatusBadge status={issue.status} />
           <span className="text-xs text-gray-400">
             #{issue.id}

@@ -7,15 +7,15 @@ const IssuesActions = async () => {
   const session = await auth();
 
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className="flex flex-wrap items-center justify-between gap-2">
       <IssueStatusFilter />
       {session && (
         <Link
           href="/issues/new"
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+          className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm shrink-0"
         >
           <PlusIcon className="w-4 h-4" />
-          New Issue
+          <span>New Issue</span>
         </Link>
       )}
     </div>

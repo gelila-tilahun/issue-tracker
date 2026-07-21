@@ -34,7 +34,7 @@ export default function RootLayout({
           <QueryClientProvider>
             <Theme accentColor="lime" scaling="105%">
               <NavBar />
-              <main className="p-5">
+              <main className="px-3 py-4 sm:px-5 sm:py-5">
                 <Container>
                   {children}
                 </Container>
