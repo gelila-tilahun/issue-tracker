@@ -1,10 +1,10 @@
 'use client';
 
-import { Card, Heading } from '@radix-ui/themes';
 import {
   Bar,
   BarChart,
   Cell,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -17,7 +17,22 @@ interface Props {
   closed: number;
 }
 
-const COLORS = ['#ef4444', '#8b5cf6', '#22c55e'];
+const BARS = [
+  { label: 'Open', color: '#ef4444' },
+  { label: 'In Progress', color: '#8b5cf6' },
+  { label: 'Closed', color: '#22c55e' },
+];
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null;
+  const bar = BARS.find((b) => b.label === label);
+  return (
+    <div className="bg-white border border-gray-100 rounded-lg shadow-lg px-4 py-2 text-sm">
+      <p className="font-semibold" style={{ color: bar?.color }}>{label}</p>
+      <p className="text-gray-600">{payload[0].value} issue{payload[0].value !== 1 ? 's' : ''}</p>
+    </div>
+  );
+};
 
 const IssueChart = ({ open, inProgress, closed }: Props) => {
   const data = [
@@ -27,24 +42,34 @@ const IssueChart = ({ open, inProgress, closed }: Props) => {
   ];
 
   return (
-    <Card>
-      <Heading size="4" mb="4">Issues Overview</Heading>
-      <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={data} barSize={50}>
-          <XAxis dataKey="label" tick={{ fontSize: 13 }} />
-          <YAxis allowDecimals={false} tick={{ fontSize: 13 }} />
-          <Tooltip
-            contentStyle={{ borderRadius: '8px', fontSize: '13px' }}
-            cursor={{ fill: 'rgba(0,0,0,0.04)' }}
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 h-full">
+      <div className="mb-4">
+        <h2 className="text-base font-semibold text-gray-800">Issues Overview</h2>
+        <p className="text-xs text-gray-400 mt-0.5">Distribution by status</p>
+      </div>
+      <ResponsiveContainer width="100%" height={260}>
+        <BarChart data={data} barSize={48} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
+          <XAxis
+            dataKey="label"
+            tick={{ fontSize: 12, fill: '#6b7280' }}
+            axisLine={false}
+            tickLine={false}
           />
-          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+          <YAxis
+            allowDecimals={false}
+            tick={{ fontSize: 12, fill: '#6b7280' }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.03)' }} />
+          <Bar dataKey="value" radius={[6, 6, 0, 0]}>
             {data.map((_, index) => (
-              <Cell key={index} fill={COLORS[index]} />
+              <Cell key={index} fill={BARS[index].color} fillOpacity={0.9} />
             ))}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-    </Card>
+    </div>
   );
 };
 
