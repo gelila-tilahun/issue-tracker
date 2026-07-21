@@ -1,43 +1,44 @@
-import { Text, Card, Flex } from '@radix-ui/themes';
-import React from 'react'
+import { Card, Flex, Text } from '@radix-ui/themes';
 import { Status } from './generated/client';
 import Link from 'next/link';
 
-interface Props{
-    open: number;
-    inProgress: number;
-    closed:number;
+interface Props {
+  open: number;
+  inProgress: number;
+  closed: number;
 }
 
+const IssueSummary = ({ open, inProgress, closed }: Props) => {
+  const containers: {
+    label: string;
+    value: number;
+    status: Status;
+    color: string;
+  }[] = [
+    { label: 'Open', value: open, status: 'OPEN', color: 'text-red-500' },
+    { label: 'In Progress', value: inProgress, status: 'IN_PROGRESS', color: 'text-violet-500' },
+    { label: 'Closed', value: closed, status: 'CLOSED', color: 'text-green-600' },
+  ];
 
-const IssueSummary = ({ open, inProgress, closed}: Props) => {
-    const containers: {
-        label: string;
-        value: number;
-        status: Status;
-    }[] = [
-        { label: 'Open Issues', value: open, status: 'OPEN' },
-        { label: 'In-progress Issues', value: inProgress, status: 'IN_PROGRESS' },
-        { label: 'Closed Issues', value: closed, status: 'CLOSED' },
-    ];
   return (
-    <Flex gap="4">
-        {containers.map((container) => (
-            <Card key = {container.label}>
-                <Flex direction ="column" gap="1">
-                    <Link
-                     className='text-sm font-medium'
-                     href={`/issues/list?status=${container.status}`}>
-                    {container.label}
-                    </Link>
-                    <Text size="5" className='font-bold'>
-                        {container.value}
-                    </Text>
-                </Flex>
-            </Card>
-        ))}
+    <Flex gap="3">
+      {containers.map((container) => (
+        <Card key={container.label} className="flex-1">
+          <Flex direction="column" gap="1" align="center" p="2">
+            <Text size="6" weight="bold" className={container.color}>
+              {container.value}
+            </Text>
+            <Link
+              href={`/issues/list?status=${container.status}`}
+              className="text-xs text-gray-500 hover:text-green-600 transition-colors text-center"
+            >
+              {container.label}
+            </Link>
+          </Flex>
+        </Card>
+      ))}
     </Flex>
-  )
-}
+  );
+};
 
-export default IssueSummary
+export default IssueSummary;
