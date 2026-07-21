@@ -2,66 +2,56 @@
 
 import { Skeleton } from "@/app/components";
 import { Issue, user as User } from "@/app/generated/client";
-import { Select } from "@radix-ui/themes";
+import { Select, Text } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useUsers();
+  const { data: users, error, isLoading } = useUsers();
 
-  if (isLoading) return <Skeleton />;
-
+  if (isLoading) return <Skeleton height={35} />;
   if (error) return null;
-  
-  const assignIssue = (userId: string) => {
-    // Convert "unassigned" string back to null for the database
-    const assignedToUserId = userId === "unassigned" ? null : userId;
 
+  const assignIssue = (userId: string) => {
+    const assignedToUserId = userId === "unassigned" ? null : userId;
     axios
-      .patch("/api/issues/" + issue.id, { 
-        assignedToUserId,
-      }) 
-      .catch(() => {
-        toast.error('Changes could not be saved.');
-      });
+      .patch("/api/issues/" + issue.id, { assignedToUserId })
+      .then(() => toast.success("Assignee updated."))
+      .catch(() => toast.error("Could not save changes."));
   };
 
   return (
-    <> 
+    <div>
+      <Text size="1" color="gray" weight="medium" mb="1" className="block uppercase tracking-wide">
+        Assignee
+      </Text>
       <Select.Root
-        // Fallback to "unassigned" if assignedToUserId is null/falsy
         defaultValue={issue.assignedToUserId || "unassigned"}
-        onValueChange={assignIssue}      
+        onValueChange={assignIssue}
       >
-        <Select.Trigger placeholder="Assign..." />
+        <Select.Trigger placeholder="Assign to..." className="w-full" />
         <Select.Content>
           <Select.Group>
-            <Select.Label>Suggestions</Select.Label>
-            {/* Avoid using an empty string "" value in Radix Select */}
             <Select.Item value="unassigned">Unassigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
-                {user.name}
+                {user.name || user.email}
               </Select.Item>
             ))}
           </Select.Group>
         </Select.Content>
       </Select.Root>
-      <Toaster />
-    </>
+    </div>
   );
 };
 
-const useUsers = () => useQuery<User[]>({
-  queryKey: ["users"],
-  queryFn: () => axios.get("/api/users").then((res) => res.data),
-  staleTime: 60 * 1000, // 60s
-  retry: 3,
-});
+const useUsers = () =>
+  useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
 
 export default AssigneeSelect;

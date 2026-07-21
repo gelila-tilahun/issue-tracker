@@ -1,21 +1,22 @@
 import { auth } from '@/app/lib/auth';
 import prisma from '@/prisma/client';
-import { Box, Flex, Grid } from '@radix-ui/themes';
+import { Box, Card, Flex, Grid, Heading } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
+import { Toaster } from 'react-hot-toast';
+import AssigneeSelect from './AssigneeSelect';
 import DeleteIssueButton from './DeleteIssueButton';
 import EditIssueButton from './EditIssueButton';
 import IssueDetails from './IssueDetails';
-import AssigneeSelect from './AssigneeSelect';
 import StatusSelect from './StatusSelect';
-import { cache } from 'react';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 interface Props {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
-const fetchIssue = cache(async (issueId: number) =>
+const fetchIssue = cache((issueId: number) =>
   prisma.issue.findUnique({ where: { id: issueId } })
 );
 
@@ -27,23 +28,33 @@ const IssueDetailPage = async ({ params }: Props) => {
   if (!Number.isInteger(issueId) || issueId <= 0) notFound();
 
   const issue = await fetchIssue(issueId);
-
   if (!issue) notFound();
 
   return (
-    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
-      <Box className="md:col-span-4">
-        <IssueDetails issue={issue} />
-      </Box>
-      <Box>
-        <Flex direction="column" gap="4">
-          {session && <AssigneeSelect issue={issue} />}
-          {session && <StatusSelect issue={issue} />}
-          {session && <EditIssueButton issueId={issue.id} />}
-          {session && <DeleteIssueButton issueId={issue.id} />}
-        </Flex>
-      </Box>
-    </Grid>
+    <>
+      <Toaster position="bottom-right" />
+      <Grid columns={{ initial: '1', sm: '5' }} gap="6">
+        <Box className="sm:col-span-4">
+          <IssueDetails issue={issue} />
+        </Box>
+
+        {session && (
+          <Box>
+            <Card variant="surface">
+              <Flex direction="column" gap="4">
+                <Heading size="2" color="gray">Manage Issue</Heading>
+                <AssigneeSelect issue={issue} />
+                <StatusSelect issue={issue} />
+                <Flex direction="column" gap="2" mt="2">
+                  <EditIssueButton issueId={issue.id} />
+                  <DeleteIssueButton issueId={issue.id} />
+                </Flex>
+              </Flex>
+            </Card>
+          </Box>
+        )}
+      </Grid>
+    </>
   );
 };
 
@@ -51,11 +62,9 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const issue = await fetchIssue(parseInt(id, 10));
   return {
-    title: issue?.title,
-    description: 'Details of issue ' + issue?.id,
+    title: issue?.title ?? 'Issue',
+    description: 'Details of issue #' + issue?.id,
   };
 }
 
 export default IssueDetailPage;
-
-

@@ -1,10 +1,10 @@
 "use client";
 
 import { Issue } from "@/app/generated/client";
-import { Select } from "@radix-ui/themes";
+import { Select, Text } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const statuses: { label: string; value: Issue["status"] }[] = [
   { label: "Open", value: "OPEN" },
@@ -19,20 +19,21 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
     axios
       .patch("/api/issues/" + issue.id, { status })
       .then(() => {
+        toast.success("Status updated.");
         router.refresh();
       })
-      .catch(() => {
-        toast.error("Could not update status.");
-      });
+      .catch(() => toast.error("Could not update status."));
   };
 
   return (
-    <>
+    <div>
+      <Text size="1" color="gray" weight="medium" mb="1" className="block uppercase tracking-wide">
+        Status
+      </Text>
       <Select.Root defaultValue={issue.status} onValueChange={changeStatus}>
-        <Select.Trigger placeholder="Change status..." />
+        <Select.Trigger placeholder="Change status..." className="w-full" />
         <Select.Content>
           <Select.Group>
-            <Select.Label>Status</Select.Label>
             {statuses.map((s) => (
               <Select.Item key={s.value} value={s.value}>
                 {s.label}
@@ -41,8 +42,7 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
-      <Toaster />
-    </>
+    </div>
   );
 };
 
