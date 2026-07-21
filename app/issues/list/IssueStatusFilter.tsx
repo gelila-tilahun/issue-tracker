@@ -1,12 +1,9 @@
 'use client';
 
-import { Status } from "@/app/generated/client";
-import { Select } from '@radix-ui/themes';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Strict local array definition mapping strings explicitly
-const statuses: { label: string; value: string }[] = [
-  { label: 'All', value: 'ALL' },
+const statuses = [
+  { label: 'All Issues', value: 'ALL' },
   { label: 'Open', value: 'OPEN' },
   { label: 'In Progress', value: 'IN_PROGRESS' },
   { label: 'Closed', value: 'CLOSED' },
@@ -15,37 +12,33 @@ const statuses: { label: string; value: string }[] = [
 const IssueStatusFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const current = searchParams.get('status') || 'ALL';
+
+  const handleChange = (value: string) => {
+    const params = new URLSearchParams();
+    const orderBy = searchParams.get('orderBy');
+    if (orderBy) params.append('orderBy', orderBy);
+    if (value !== 'ALL') params.append('status', value);
+    const query = params.toString() ? `?${params.toString()}` : '';
+    router.push('/issues/list' + query);
+  };
 
   return (
-    <Select.Root 
-      // Fallback to 'ALL' if no status query exists in the URL
-      defaultValue={searchParams.get('status') || 'ALL'}
-      onValueChange={(status) => {
-        const queryParams = new URLSearchParams();
-        
-        // Retain existing sorting/filtering values if present
-        const currentOrderBy = searchParams.get('orderBy');
-        if (currentOrderBy) queryParams.append('orderBy', currentOrderBy);
-        
-        // Append status only if it isn't the 'ALL' token
-        if (status && status !== 'ALL') {
-          queryParams.append('status', status);
-        }
-
-        const query = queryParams.toString() ? `?${queryParams.toString()}` : '';
-        router.push('/issues/list' + query);
-      }}
-    >
-      <Select.Trigger placeholder='Filter by status...' />
-      <Select.Content>
-        {statuses.map((status) => (
-          // FIXED: Guaranteed unique string keys prevent ScrollAreaViewport runtime drops
-          <Select.Item key={`status-filter-${status.value}`} value={status.value}>
-            {status.label}
-          </Select.Item>
-        ))}
-      </Select.Content>
-    </Select.Root>
+    <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+      {statuses.map((s) => (
+        <button
+          key={s.value}
+          onClick={() => handleChange(s.value)}
+          className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+            current === s.value
+              ? 'bg-white text-green-700 shadow-sm'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          {s.label}
+        </button>
+      ))}
+    </div>
   );
 };
 

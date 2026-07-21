@@ -1,6 +1,5 @@
 import { auth } from '@/app/lib/auth';
 import prisma from '@/prisma/client';
-import { Box, Card, Flex, Grid, Heading } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -33,27 +32,30 @@ const IssueDetailPage = async ({ params }: Props) => {
   return (
     <>
       <Toaster position="bottom-right" />
-      <Grid columns={{ initial: '1', sm: '5' }} gap="6">
-        <Box className="sm:col-span-4">
-          <IssueDetails issue={issue} />
-        </Box>
+      <div className="grid grid-cols-1 sm:grid-cols-5 gap-6">
 
+        {/* Main content */}
+        <div className="sm:col-span-4">
+          <IssueDetails issue={issue} />
+        </div>
+
+        {/* Sidebar */}
         {session && (
-          <Box>
-            <Card variant="surface">
-              <Flex direction="column" gap="4">
-                <Heading size="2" color="gray">Manage Issue</Heading>
-                <AssigneeSelect issue={issue} />
-                <StatusSelect issue={issue} />
-                <Flex direction="column" gap="2" mt="2">
-                  <EditIssueButton issueId={issue.id} />
-                  <DeleteIssueButton issueId={issue.id} />
-                </Flex>
-              </Flex>
-            </Card>
-          </Box>
+          <div className="sm:col-span-1">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-5 sticky top-4">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                Manage
+              </p>
+              <AssigneeSelect issue={issue} />
+              <StatusSelect issue={issue} />
+              <div className="pt-2 border-t border-gray-100 space-y-2">
+                <EditIssueButton issueId={issue.id} />
+                <DeleteIssueButton issueId={issue.id} />
+              </div>
+            </div>
+          </div>
         )}
-      </Grid>
+      </div>
     </>
   );
 };
