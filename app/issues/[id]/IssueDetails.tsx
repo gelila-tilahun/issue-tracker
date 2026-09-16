@@ -39,7 +39,9 @@ const IssueDetails = ({ issue }: { issue: Issue }) => {
 
       {/* Description */}
       <div className="px-6 py-5">
-        <div className="prose prose-sm max-w-none text-gray-700
+        <div
+          id="issue-description"
+          className="prose prose-sm max-w-none text-gray-700
           prose-headings:text-gray-800
           prose-a:text-green-600
           prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded

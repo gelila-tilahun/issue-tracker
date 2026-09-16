@@ -1,17 +1,12 @@
-import prisma from '@/prisma/client';
+import { Issue, user } from "@/app/generated/client";
 import Link from 'next/link';
 import { IssueStatusBadge } from './components';
 
-const LatestIssues = async () => {
-  const issues = await prisma.issue.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 7,
-    include: {
-      assignedToUser: {
-        select: { id: true, name: true, email: true, image: true },
-      },
-    },
-  });
+type IssueWithUser = Issue & {
+  assignedToUser: Pick<user, "id" | "name" | "email" | "image"> | null;
+};
+
+const LatestIssues = ({ issues }: { issues: IssueWithUser[] }) => {
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 h-full">

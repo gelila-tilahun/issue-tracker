@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import AssigneeSelect from './AssigneeSelect';
 import DeleteIssueButton from './DeleteIssueButton';
 import EditIssueButton from './EditIssueButton';
+import ExportPdfButton from './ExportPdfButton';
 import IssueDetails from './IssueDetails';
 import StatusSelect from './StatusSelect';
 
@@ -50,6 +51,7 @@ const IssueDetailPage = async ({ params }: Props) => {
               <div className="pt-2 border-t border-gray-100 flex flex-row lg:flex-col gap-2">
                 <EditIssueButton issueId={issue.id} />
                 <DeleteIssueButton issueId={issue.id} />
+                <ExportPdfButton issue={issue} />
               </div>
             </div>
           </div>

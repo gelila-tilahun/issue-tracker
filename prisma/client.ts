@@ -2,21 +2,25 @@ import { PrismaClient } from "../app/generated/client";
 
 const createPrismaClient = () => {
   const dbUrl = process.env.DATABASE_URL;
-
-  // Next.js static compilation/Turbopack might run this code before env is injected.
-  // We use a fallback during static analysis to prevent the constructor from crashing.
   const isServer = typeof window === "undefined";
   const urlToUse = dbUrl || (isServer ? undefined : "mysql://mock:mock@localhost:3306/mock");
+
+  // Append connection_limit and pool_timeout if not already present
+  const finalUrl = urlToUse
+    ? urlToUse.includes("connection_limit")
+      ? urlToUse
+      : `${urlToUse}${urlToUse.includes("?") ? "&" : "?"}connection_limit=1&pool_timeout=20`
+    : urlToUse;
 
   return new PrismaClient({
     datasources: {
       db: {
-        url: urlToUse,
+        url: finalUrl,
       },
     },
     log:
       process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
+        ? ["error", "warn"]
         : ["error"],
   });
 };

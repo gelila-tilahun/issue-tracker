@@ -9,13 +9,19 @@ export interface IssueCounts {
 
 export const getIssueCounts = unstable_cache(
   async (): Promise<IssueCounts> => {
-    const [open, inProgress, closed] = await Promise.all([
-      prisma.issue.count({ where: { status: "OPEN" } }),
-      prisma.issue.count({ where: { status: "IN_PROGRESS" } }),
-      prisma.issue.count({ where: { status: "CLOSED" } }),
-    ]);
-    return { open, inProgress, closed };
+    const rows = await prisma.issue.groupBy({
+      by: ["status"],
+      _count: { status: true },
+    });
+
+    const counts = { open: 0, inProgress: 0, closed: 0 };
+    for (const row of rows) {
+      if (row.status === "OPEN") counts.open = row._count.status;
+      else if (row.status === "IN_PROGRESS") counts.inProgress = row._count.status;
+      else if (row.status === "CLOSED") counts.closed = row._count.status;
+    }
+    return counts;
   },
   ["issue-counts"],
-  { revalidate: 60 } // refresh every 60 seconds
+  { revalidate: 60 }
 );
